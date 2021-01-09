@@ -12,5 +12,8 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
+
+Route::post('addcategory','CategoryController@createCategories');
+Route::post('deletecategory','CategoryController@deleteCategory');
