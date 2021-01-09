@@ -9,7 +9,7 @@ class CategoryController extends Controller
     // This function below responsable to get all the categories 
     public function allCategories(){
         $categories = Categorie::all();
-        return View('home',['categories'=>$categories]);
+        return View('Home',['categories'=>$categories]);
     }
 
     // This function below responsable to create a  category
@@ -22,7 +22,8 @@ class CategoryController extends Controller
 
             $categorie->save();
 
-            return View('/');
+           return redirect('/');
+
         
     }
     
