@@ -64,6 +64,7 @@
                     <h4 class="create_cate">Create a category</h4>
 
                     <form action="{{url('addcategory')}}" method="post">
+                            {{ csrf_field() }}
 
                             <div class="mb-3">
                                 <label class="form-label">Category Name : </label>
@@ -72,10 +73,15 @@
 
                         <div class="mb-3">
                         <label class="form-label">Select the parent of this category (not neccessary) </label>
-
+                            
                             <select name="category_parent" id="">
-                                <option value="1">samsung</option>
-                                <option value="2">apple</option>
+                            <option value=""></option>
+
+                            @foreach($categories as $categorie)
+
+                                <option value="{{ $categorie->id }}">{{ $categorie->name }}</option>
+                                
+                            @endforeach
                             </select>
                         </div>
 
@@ -89,7 +95,9 @@
 
                     <h4 class="create_cate">Create a product</h4>
 
-                    <form action="" method="post">
+                    <form action="{{url('addproduct')}}" method="post" enctype="multipart/form-data">
+
+                         {{ csrf_field() }}
 
                         <div class="mb-3">
 
@@ -121,8 +129,12 @@
                         <div class="mb-3">
                         <label class="form-label">Select Ctagory of the product </label>
                         <select name="category_parent_product" id="">
-                            <option value="1">samsung</option>
-                            <option value="2">apple</option>
+                        <option value=""></option>
+                        @foreach($categories as $categorie)
+
+                           <option value="{{ $categorie->id }}">{{ $categorie->name }}</option>
+
+                        @endforeach
                         </select>
 
                         </div>

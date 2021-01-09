@@ -11,9 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('home');
-});
+
+Route::get('/','ProductController@allData');
 
 Route::post('addcategory','CategoryController@createCategories');
 Route::post('deletecategory','CategoryController@deleteCategory');
+
+Route::post('addproduct','ProductController@createProduct');
+Route::post('deleteproduct','ProductController@deleteProduct');

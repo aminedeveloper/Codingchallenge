@@ -14,8 +14,16 @@ class CategoryController extends Controller
 
     // This function below responsable to create a  category
 
-    public function createCategories(){
-        //
+    public function createCategories(Request $request){
+            $categorie = new Categorie(); 
+
+            $categorie->name = $request->input('categoryname');
+            $categorie->parentid  = $request->input('category_parent');
+
+            $categorie->save();
+
+            return View('/');
+        
     }
     
     // This function below responsable to delete a category
