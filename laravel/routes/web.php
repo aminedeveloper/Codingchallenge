@@ -18,4 +18,10 @@ Route::post('addcategory','CategoryController@createCategories');
 Route::post('deletecategory','CategoryController@deleteCategory');
 
 Route::post('addproduct','ProductController@createProduct');
-Route::post('deleteproduct','ProductController@deleteProduct');
+Route::get('deleteproduct/{productid}','ProductController@deleteProduct');
+
+Route::post('products','ProductController@filterProduct');
+Route::post('productscategory','ProductController@filterProductcategory');
+
+
+ 
