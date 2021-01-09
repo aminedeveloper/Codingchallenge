@@ -12,16 +12,16 @@
 */
 
 
-Route::get('/','ProductController@allData');
+Route::get('/','ProductController@allData'); // get all data and showing them in the home page
 
-Route::post('addcategory','CategoryController@createCategories');
-Route::post('deletecategory','CategoryController@deleteCategory');
+Route::post('addcategory','CategoryController@createCategories'); // add category route
 
-Route::post('addproduct','ProductController@createProduct');
-Route::get('deleteproduct/{productid}','ProductController@deleteProduct');
 
-Route::post('products','ProductController@filterProduct');
-Route::post('productscategory','ProductController@filterProductcategory');
+Route::post('addproduct','ProductController@createProduct'); // add product route
+Route::get('deleteproduct/{productid}','ProductController@deleteProduct'); // delete product route
+
+Route::post('products','ProductController@filterProduct'); // filter product route
+Route::post('productscategory','ProductController@filterProductcategory'); // filter product by category route 
 
 
  

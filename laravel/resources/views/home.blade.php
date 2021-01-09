@@ -32,47 +32,70 @@
 
                 <div  class="container">
                     <div class="row">
+
                         <div class="col-md-3">
+
                             <h4>Filter The results By  : </h4>
+
                             <form action="{{url('products')}}" method="post">
-                            {{ csrf_field() }}
+                                {{ csrf_field() }}
 
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="filterby" id="exampleRadios1" value="priceup" checked>
-                                <label class="form-check-label" for="exampleRadios1">
-                                    Price <i class="fas fa-angle-up"></i>
+                              <!-- filter by price from low to high -->
+                                <div class="form-check form-check-inline">
+
+                                    <input class="form-check-input" type="radio" name="filterby" id="exampleRadios1" value="priceup" checked>
+
+                                    <label class="form-check-label" for="exampleRadios1">
+
+                                        Price <i class="fas fa-angle-up"></i>
+                                        
+                                    </label>
+
+                                </div>
+
+                                <!-- filter by price from hight to low -->
+
+                                <div class="form-check form-check-inline">
+
+                                    <input class="form-check-input" type="radio" name="filterby" id="exampleRadios1" value="pricedown">
+
+                                    <label class="form-check-label" for="exampleRadios1">
+
+                                        Price <i class="fas fa-angle-down"></i>
 
 
-                                </label>
+                                    </label>
 
-                            </div>
+                                </div>      
 
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="filterby" id="exampleRadios1" value="pricedown">
-                                <label class="form-check-label" for="exampleRadios1">
-                                    Price <i class="fas fa-angle-down"></i>
+                                <!-- filter by price by name -->
 
+                                <div class="form-check form-check-inline">
 
-                                </label>
+                                    <input class="form-check-input" type="radio" name="filterby" id="exampleRadios1" value="name">
 
-                            </div>
+                                    <label class="form-check-label" for="exampleRadios1">
+                                        Name
+                                    </label>
 
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="filterby" id="exampleRadios1" value="name">
-                                <label class="form-check-label" for="exampleRadios1">
-                                    Name
-                                </label>
-
-                            </div>
+                                </div>
 
                                 <button type="submit" class="btn btn-info">Filter</button>
                             </form>
+
+
                         </div>
                         <div class="col-md-4">
+
                             <h4>Filter The results By  Category </h4>
+
+                            <!-- this form is responsable to filter all products by category -->
+                            
                             <form action="{{url('productscategory')}}" method="post">
+
                                 {{ csrf_field() }}
                                 <select name="category_filter" id="">
+
                                     <option value=""></option>
 
                                     @foreach($categories as $categorie)
@@ -84,10 +107,16 @@
                         
 
                                 <button type="submit" class="btn btn-info">Filter</button>
+
                             </form>
+
                         </div>
+                        
                     </div>
+
                 </div>
+
+
             <div  class="container mainbody">
 
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-success addbtn">New +</button>
@@ -95,18 +124,32 @@
                 <div class="row">
                 @foreach($products as $product)
 
-                 
+                 <!-- begin div that responsable of showing all products  -->
                     <div class="col-md-4">
+
                         <div class="card" style="width: 18rem;">
-                        <?php $contents = Storage::url(''.$product->image.''); ?>
+
+                            <!-- product image -->
                             <img class="card-img-top" src="<?php echo asset('productsimages/'.$product->image.''); ?>">
+
                             <div class="card-body">
+
+                            <!-- product Title -->
+
                                 <h5 class="card-title">{{ $product->name }}</h5>
+
+                            <!-- product description -->
+
                                 <p class="card-text">{{ $product->description }}</p>
-                                <button class="btn btn-primary">
+
+                            <!-- product price -->
+
+                            
+                                <label class="btn btn-primary">
                                 {{ $product->price }} $
-                                </button>
+                                </label>
                                 
+                                <!-- button that allow u to delete a product -->
                                     <form class="deleteclass"  action="{{url('deleteproduct/'.$product->id)}}" method="get">
                                         {{ csrf_field() }}
                                         {{method_field('DELETE')}}
@@ -123,114 +166,132 @@
                 </div>
 
      
-<!-- Modal -->
+<!-- Popup Div that allow u to choose what to create  -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
 
-    <div class="modal-content">
+        <div class="modal-content">
 
-        <div class="container">
+            <div class="container">
 
-            <div class="row">
+                <div class="row">
 
-                <div class="col-md-6 categorydiv">
+                    <div class="col-md-6 categorydiv">
 
-                    <h4 class="create_cate">Create a category</h4>
+                        <h4 class="create_cate">Create a category</h4>
 
-                    <form action="{{url('addcategory')}}" method="post">
-                            {{ csrf_field() }}
+                        <!-- Begin Form that responsable of creating the categories  -->
+
+                        <form action="{{url('addcategory')}}" method="post">
+                                {{ csrf_field() }}
+
+                                <div class="mb-3">
+                                    <label class="form-label">Category Name : </label>
+                                    <input name="categoryname" type="text" class="form-control">
+                                </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Category Name : </label>
-                                <input name="categoryname" type="text" class="form-control">
+                            <label class="form-label">Select the parent of this category (not neccessary) </label>
+                                
+                                <select name="category_parent" id="">
+                                <option value=""></option>
+
+                                @foreach($categories as $categorie)
+
+                                    <option value="{{ $categorie->id }}">{{ $categorie->name }}</option>
+                                    
+                                @endforeach
+                                </select>
                             </div>
 
-                        <div class="mb-3">
-                        <label class="form-label">Select the parent of this category (not neccessary) </label>
-                            
-                            <select name="category_parent" id="">
-                            <option value=""></option>
+                            <button type="submit" class="btn btn-primary">Add Category</button>
 
-                            @foreach($categories as $categorie)
+                        </form>
 
-                                <option value="{{ $categorie->id }}">{{ $categorie->name }}</option>
-                                
-                            @endforeach
-                            </select>
-                        </div>
+                    </div>
 
-                        <button type="submit" class="btn btn-primary">Add Category</button>
+                    <div class="col-md-6">
 
-                    </form>
+                        <h4 class="create_cate">Create a product</h4>
 
-                </div>
+                        <!-- Begin Form that responsable of creating the products  -->
 
-                <div class="col-md-6">
+                        <form action="{{url('addproduct')}}" method="post" enctype="multipart/form-data">
 
-                    <h4 class="create_cate">Create a product</h4>
+                            {{ csrf_field() }}
 
-                    <form action="{{url('addproduct')}}" method="post" enctype="multipart/form-data">
 
-                         {{ csrf_field() }}
+                            <div class="mb-3">
 
-                        <div class="mb-3">
+                                <label class="form-label">Product Name : </label>
 
-                            <label class="form-label">Product Name : </label>
-                            <input type="text" name="productname" class="form-control">
+                                <input type="text" name="productname" class="form-control">
 
-                        </div>
+                            </div>
 
-                        <div class="mb-3">
 
-                            <label class="form-label">Product Description : </label>
-                            <textarea class="form-control" name="productdescription" id="" cols="5" rows="5"></textarea>
-                        </div>
+                            <div class="mb-3">
 
-                        <div class="mb-3">
+                                <label class="form-label">Product Description : </label>
 
-                            <label class="form-label">Product Price : </label>
-                            <input type="text" name="productprice" class="form-control"> 
+                                <textarea class="form-control" name="productdescription" id="" cols="5" rows="5"></textarea>
 
-                        </div>
+                            </div>
 
-                        <div class="mb-3">
+                            <div class="mb-3">
 
-                            <label class="form-label">Product Image : </label>
-                            <input type="file" name="productimage" class="form-control">
+                                <label class="form-label">Product Price : </label>
 
-                        </div>
+                                <input type="text" name="productprice" class="form-control"> 
 
-                        <div class="mb-3">
-                        <label class="form-label">Select Ctagory of the product </label>
-                        <select name="category_parent_product" id="">
-                        <option value=""></option>
-                        @foreach($categories as $categorie)
+                            </div>
 
-                           <option value="{{ $categorie->id }}">{{ $categorie->name }}</option>
+                            <div class="mb-3">
 
-                        @endforeach
-                        </select>
+                                <label class="form-label">Product Image : </label>
+                                <input type="file" name="productimage" class="form-control">
 
-                        </div>
+                            </div>
 
-                        <button value="addproduct" type="submit" class="btn btn-primary">Add Product</button>
+                            <div class="mb-3">
 
-                    </form>
+                                <label class="form-label">Select Ctagory of the product </label>
+
+                                <select name="category_parent_product" id="">
+
+                                    <option value=""></option>
+
+                                    @foreach($categories as $categorie)
+
+                                    <option value="{{ $categorie->id }}">{{ $categorie->name }}</option>
+
+                                    @endforeach
+
+                                </select>
+
+                            </div>
+
+                            <button value="addproduct" type="submit" class="btn btn-primary">Add Product</button>
+
+                        </form>
+
+                    </div>
 
                 </div>
 
             </div>
 
+
+        
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                
+            </div>
+
         </div>
 
-
-       
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        
-      </div>
     </div>
-  </div>
+
 </div>
      
  

@@ -102,6 +102,7 @@ class ProductController extends Controller
     // this function below responsable to filtering the product by name or price 
 
     public function filterProductcategory(Request $request){
+        
         $filterby=$request->input('category_filter');
         $categories = Categorie::all();
 

@@ -27,10 +27,6 @@ class CategoryController extends Controller
         
     }
     
-    // This function below responsable to delete a category
-
-    public function deleteCategory(){
-        //
-    }
+  
 }
   
