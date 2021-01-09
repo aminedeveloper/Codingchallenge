@@ -213,7 +213,7 @@
 
                         </div>
 
-                        <button type="submit" class="btn btn-primary">Add Product</button>
+                        <button value="addproduct" type="submit" class="btn btn-primary">Add Product</button>
 
                     </form>
 
