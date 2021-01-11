@@ -42,7 +42,7 @@
                 </ul>
             </div>
             <div class="col-md-6">
-                <img class="webappimg" src="webapp.png" alt="">
+                <img style="max-width: 100%;height: 380px;" class="webappimg" src="webapp.png" alt="">
             </div>
        </div><div class="explaination">
          <p class="h5"><i class="fas fa-circle"></i> The web application : </p> <p class="lead">I create a simple laravel web application to creation Product and delete them also , filtering them by price or name or category</p><p class="h5"> <i class="fas fa-circle"></i> Follow this steps so u can use the application : </p> <p >first before all you need to run the command 'php artisan migrate' to setup and database in your server , after that , you need to run the command 'php artisan serve' and click on the link  : </p><div class="row">
