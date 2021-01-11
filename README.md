@@ -23,14 +23,14 @@
                 </ul>
             </div>
             <div style=" padding-bottom: 20px;" class="col-md-6">
-                <img style="max-width: 400px;height: 380px;" class="webappimg" src="webapp.png" alt="">
+                <img style="width: 400px;height: 380px;" class="webappimg" src="webapp.png" alt="">
             </div>
        </div><div style="padding-top: 28px;" class="explaination">
          <p style="border-bottom: 1px solid white;
             padding: 15px;  " class="h5"><i class="fas fa-circle"></i> The web application : </p> <p class="lead">I create a simple laravel web application to creation Product and delete them also , filtering them by price or name or category</p><p style="border-bottom: 1px solid white;
             padding: 15px;  " class="h5"> <i class="fas fa-circle"></i> Follow this steps so u can use the application : </p> <p >first before all you need to run the command 'php artisan migrate' to setup and database in your server , after that , you need to run the command 'php artisan serve' and click on the link  : </p><div style="padding-top: 39px;" class="row">
                 <div style=" padding-bottom: 20px;" class="col-md-6">
-                    <img style="max-width: 400px;height: 380px;" class="webappimg" src="webapp.png" alt="">
+                    <img style="width: 400px;height: 380px;" class="webappimg" src="webapp.png" alt="">
                 </div>
                 <div style=" padding-bottom: 20px;" class="col-md-6">
                     <h5>This is the homepage : </h5>
@@ -42,7 +42,7 @@
                     <p class="lead">Here you can Create , Delete both Product and Categories</p>
                 </div>
                 <div style=" padding-bottom: 20px;" class="col-md-6">
-                    <img style="max-width: 400px;height: 380px;" class="webappimg" src="addproduct.png" alt="">
+                    <img style="width: 400px;height: 380px;" class="webappimg" src="addproduct.png" alt="">
                 </div> </div></div><div style="padding-top: 28px;" class="explaination"><p  style="border-bottom: 1px solid white;
             padding: 15px;  "class="h5"><i class="fas fa-circle"></i> The web application : </p><p class="lead">I create a simple laravel console application to creation and delete both products and categories </p><p style="border-bottom: 1px solid white;
             padding: 15px;  " class="h5"><i class="fas fa-circle"></i> Follow this steps so u can use the application : </p><p > If you want to manage the categories , you need to run the command <h3>php artisan categories</h3> to display the categories menu  </p> <p > If you want to manage the products , you need to run the command <h3>php artisan products</h3> to display the products menu  </p> </div> <center><h6>Any Questions ? , please do not hesitate to Contact us in : aminemohammedyassine@gmail.com
