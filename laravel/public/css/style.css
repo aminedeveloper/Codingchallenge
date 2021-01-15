@@ -1,41 +1,81 @@
-.navbar{
+.navbar
+{
     background-color: #e3f2fd;
 }
-.navbar-brand{
-    padding: 15px;;
+.navbar-brand
+{
+    padding: 15px;
 }
-.mainbody{
-    margin-top: 5%;
+.mainbody
+{
+     margin-top: 5%; 
     border: 1.5px solid skyblue;
     border-radius: 15px;
     border-spacing: 10px;
     border-width: 3px;
     padding: 16px;
 }
-.addbtn{
+.addbtn
+{
     float: right;
     margin-bottom: 16px;
 }
-.row{
+.row
+{
+    margin-top: 30px;
+}
+.productsrow
+{
     text-align: center;
     margin-top: 50px;
     margin-bottom: 20px;
+
 }
-.card{
-    margin-right: 30px;
-    width: 400px;
+.card
+{
+     margin-right: 10px;
+    width: 400px; 
     display: flex;
 }
-.create_cate{
+.create_cate
+{
     text-decoration: underline;
 }
-.categorydiv{
+.categorydiv
+{
     border-right: 1px solid black;
 }
  
-.modal-content{
+.modal-content
+{
     width: 1000px;
 }
-.deleteclass{
+.deleteclass
+{
     display: inline;
+}
+.sidebar
+{
+    background-color: #e3f2fd;
+    height: 500px;
+}
+.filterselect
+{
+    width: 190px;
+    height: 30px;
+}
+.sidebarul
+{
+    margin-top: 10%;
+}
+.sidebaritems
+{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.sidebaritems a
+{
+    text-decoration: none;
+    color: blue;
+    font-size: 20px;
+    font-weight: 100;
 }

@@ -12,7 +12,10 @@
 */
 
 
-Route::get('/','ProductController@allData'); // get all data and showing them in the home page
+Route::get('/','ProductController@getAllproducts'); // get all data and showing them in the home page
+
+Route::get('createproductview','ProductController@allData');
+
 
 Route::post('addcategory','CategoryController@createCategories'); // add category route
 
