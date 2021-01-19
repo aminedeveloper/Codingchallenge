@@ -1,9 +1,12 @@
 <?php
 
 namespace App\Console\Commands;
+
 use Illuminate\Support\Facades\Artisan;
 use App\Categorie;
+use App\Repositories\CategorieRepository;
 use Illuminate\Console\Command;
+use Illuminate\Http\Request;
 
 class categories extends Command
 {
@@ -20,14 +23,16 @@ class categories extends Command
      * @var string
      */
     protected $description = 'This Command Responsable to manipulating categories';
+    protected $CategorieRepository;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(CategorieRepository $CategorieRepository)
     {
+        $this->CategorieRepository = $CategorieRepository;
         parent::__construct();
     }
 
@@ -50,7 +55,7 @@ class categories extends Command
         );
 
         $optionnumber = $this->ask('Please Choose an option ?');
-
+        $request = new Request();
         switch ($optionnumber) {
             case '1':
 
@@ -63,14 +68,9 @@ class categories extends Command
                 );
             break;// End of Case 1
 
-            
             case '2':
-
-
-                // Create New Category
-
                 // ask user of category name
-                $category_name = $this->ask('enter name of the category'); 
+                $request['categoryname'] = $this->ask('enter name of the category'); 
 
                 // ask user of category parent 
 
@@ -79,60 +79,33 @@ class categories extends Command
                     Categorie::all(['id', 'name'])->toArray()
                 );
 
+                $request['category_parent']=intval($this->ask('entrer id of category parent ( not nessecary )'));
 
-                $categoryparent=$this->ask('entrer id of category parent ( not nessecary )');
-
-                // cast answer to integer 
-
-                 $category_parent = intval($categoryparent); // Cast The Answer As an Integer
-
-                 if($category_parent==0){ // This Check Is to set null if the user doesn't set any parent 
+                 if($request['category_parent']==0)
+                { // This Check Is to set null if the user doesn't set any parent 
 
                     $category_parent=NULL;
                 } 
 
-                // add category to databse
-                $categorie = new Categorie(); 
-
-                $categorie->name = $category_name;
-                $categorie->parentid  = $category_parent;
-
-                $categorie->save();
-                 
-
-            break; // end of case 2
-
+                $this->CategorieRepository->storeCategorie($request);
+            break;
 
             case '3':
-
                 // ask user id of category want to delete
-
                 $this->table(
                     ['Id', 'Name'],
                     Categorie::all(['id', 'name'])->toArray()
                 );
 
+                $categorieId=intval($this->ask('entrer id of category want to delete'));
 
-                $categoryparent=$this->ask('entrer id of category parent ( not nessecary )');
+                if($categorieId==0)
+                { // This Check Is to set null if the user doesn't set any parent 
 
-                $category_parent = intval($categoryparent); // Cast The Answer As an Integer
-
-                if($category_parent==0){ // This Check Is to set null if the user doesn't set any parent 
-
-                   $category_parent=NULL;
-               } 
-
-               // begin the deleting process 
-
-               $category = Categorie::find($category_parent);
-
-               $category->delete();
-               Artisan::call('categories');
-
-
-
-            break; // end of case 3
-            
+                   $categorieId=NULL;
+                } 
+               $this->CategorieRepository->deleteCategorie($categorieId);
+            break;     
         }
     }
 }
