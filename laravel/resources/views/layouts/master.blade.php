@@ -25,7 +25,7 @@
         <nav class="navbar navbar-light ">
             <a class="navbar-brand" href="#">
                 Product Management
-            </a>
+            </a> 
         </nav>
 
         <div class="container-fluid">
@@ -33,15 +33,44 @@
                 <div class="col-md-2 sidebar">
 
                     <ul class="sidebarul">
-                        <li class="sidebaritems"><a href="{{url('/')}}">Dashboard</a></li>
-                        <li class="sidebaritems"><a href="{{url('createproductview')}}">Create Product ></a></li>
-                        <li class="sidebaritems"><a href="">Create Categorie ></a></li>
+                        <li class="sidebaritems">
+                            <a href="{{url('/')}}">Dashboard</a>
+                        </li>
+
+                        <li class="sidebaritems">
+                            <a href="{{url('createproductview')}}">Create Product ></a>
+                        </li>
+
+                        <li class="sidebaritems">
+                            <a href="{{url('createcategoryview')}}">Create Categorie ></a>
+                        </li>
+
                     </ul>
 
+                    <ul class="list-group list-group-flush">
+                    <li class="sidebaritems">
+                        <h4 class="allcategories">All Categories :</h4>
+                    </li>
+                    
+                        @foreach($categories as $categorie)
+                            <li class="list-group-item">{{$categorie->name}}
+
+                                <form class="deletecategorie" action="{{url('deletecategorie/'.$categorie->id) }}" method="get">
+                                            {{ csrf_field() }}
+                                            {{method_field('DELETE')}}
+
+                                    <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                                </form>
+                            
+                            </li>
+                        
+                        @endforeach
+                    </ul>
+                    
                 </div>
-                <div class="col-md-10">
-                @yield('content')
-                </div>
+                    <div class="col-md-10">
+                         @yield('content')
+                    </div>
             </div>
         </div>
 
