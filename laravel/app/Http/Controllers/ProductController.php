@@ -8,116 +8,75 @@ use Illuminate\Http\Request;
 use App\Product;
 use App\Categorie;
 use App\Http\Requests\CreateProductsRequest;
+use App\Repositories\ProductRepository;
 
 class ProductController extends Controller
 {
-    // This function below responsable to get all the categories 
+    protected $ProductRepository;
+
+    public function __construct(ProductRepository $ProductRepository)
+    {
+        $this->ProductRepository = $ProductRepository;
+    }
+
+    // get all the product and categories for the creation
+
     public function allData()
     {
         $categories = Categorie::all();
         $products = Product::all();
+
         return view('createproduct', compact('categories', 'products'));
     }
 
-    // This function below responsable to get all the categories 
+    // get all the product and categories for the homepage
 
     public function getAllproducts()
     {
         $categories = Categorie::all();
         $products = Product::all();
+
         return view('home', compact('categories', 'products'));
     }
 
 
-    // This function below responsable to create a product
+    // create a product
 
-    public function createProduct(Request $request)
+    public function createProduct(CreateProductsRequest $request)
     {
-        $this->validate($request,[
-            'productname'=>'required|min:5',
-            'productdescription'=>'required|min:10|max:222',
-            'productprice'=>'required|numeric',
-            'productimage'=>'required',
-            'category_parent_product'=>'required'
+        $this->ProductRepository->storeProduct($request);
 
-        ]);
-        $product = new Product();
-        $product->name = $request->input('productname'); 
-        $product->description = $request->input('productdescription');
-        $product->price = floatval($request->input('productprice'));
-        $file = $request->file('productimage');
-        $input['productimage'] = time() .'.'.$file->getClientOriginalExtension();
-        $destinationpath=public_path('/productsimages');
-        $file->move($destinationpath , $input['productimage']);
-        $product->image=$input['productimage'];
-        $product->category  = $request->input('category_parent_product');
-        $product->save();
         return redirect('/');
     }
 
-    // This function below responsable to delete a product 
+    // delete a product 
 
-    public function deleteProduct(Request $request , $productid)
+    public function deleteProduct($productId)
     {
-
-        $product = Product::find($productid);
-        $product->delete();
+        $this->ProductRepository->deleteProduct($productId);
+        
         return redirect('/');
-
     }
 
 
-    // this function below responsable to filtering the products by name or price 
+    // filtering the products by name or price 
 
     public function filterProduct(Request $request)
     {
+        $products = $this->ProductRepository->filterProduct($request);
+        $categories = Categorie::all();
 
-        $filterby=$request->input('filterby');
-
-        switch ($filterby) {
-            case 'priceup':
-                $products = Product::select("*")
-                ->orderBy('price', 'asc')
-                ->get();
-                $categories = Categorie::all();
-
-                return view('Home', compact('categories', 'products'));
-            break;
-            
-            case 'pricedown':
-                $products = Product::select("*")
-                ->orderBy('price', 'desc')
-                ->get();
-                $categories = Categorie::all();
-                return view('Home', compact('categories', 'products'));
-                
-            break;
-
-            case 'name':
-                $products = Product::select("*")
-                ->orderBy('name')
-                ->get();
-                $categories = Categorie::all();
-                return view('Home', compact('categories', 'products'));
-            break;
-        }
+        return view('home', compact('categories', 'products'));   
     }
 
-    // this function below responsable to filtering the product by name or price 
+    // filtering the product by name or price 
 
     public function filterProductcategory(Request $request)
     {
-        
-        $filterby=$request->input('category_filter');
+        $products=$this->ProductRepository->filterBycategorie($request);
         $categories = Categorie::all();
 
-        $products = Product::select("*")
-                            ->where('category',$filterby)
-                            ->get();
-        
-        return view('Home', compact('categories', 'products'));
-
-
+        return view('home', compact('categories', 'products')); 
     }
 }
  
