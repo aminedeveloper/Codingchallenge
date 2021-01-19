@@ -15,6 +15,10 @@
 Route::get('/','ProductController@getAllproducts'); // get all data and showing them in the home page
 
 Route::get('createproductview','ProductController@allData');
+Route::get('createcategoryview','CategoryController@allCategories');
+
+
+Route::get('deletecategorie/{categorieid}','CategoryController@deletecategorie'); // delete product route
 
 
 Route::post('addcategory','CategoryController@createCategories'); // add category route
