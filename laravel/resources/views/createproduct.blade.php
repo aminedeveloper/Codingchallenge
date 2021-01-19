@@ -18,7 +18,7 @@
         <label class="form-label">Product Name : </label>
 
         <input type="text" name="productname" class="form-control">
-        @if ($errors->has('productname'))
+        @if ($errors->has('productdescription'))
                             <div class="invalid-feedback">
                                 <strong>{{ $errors->first('productname') }}</strong>
                             </div>
@@ -32,7 +32,7 @@
         <label class="form-label">Product Description : </label>
 
         <textarea class="form-control" name="productdescription" id="" cols="5" rows="5"></textarea>
-
+        <small>Min : 10 Characters</small>
     </div>
 
     <div class="mb-3">

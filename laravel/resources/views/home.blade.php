@@ -97,7 +97,7 @@
 
             <div  class="container mainbody">
 
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" class="btn btn-success addbtn">New +</button>
+                 
                 <!-- start the products lists  -->
                 <div class="row productsrow">
                 @foreach($products as $product)
@@ -143,69 +143,8 @@
                 @endforeach
  
                 </div>
-
+ 
      
-<!-- Popup Div that allow u to choose what to create  -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-
-        <div class="modal-content">
-
-            <div class="container">
-
-                <div class="row">
-
-                    <div class="col-md-6 categorydiv">
-
-                        <h4 class="create_cate">Create a category</h4>
-
-                        <!-- Begin Form that responsable of creating the categories  -->
-
-                        <form action="{{url('addcategory')}}" method="post">
-                                {{ csrf_field() }}
-
-                                <div class="mb-3">
-                                    <label class="form-label">Category Name : </label>
-                                    <input name="categoryname" type="text" class="form-control">
-                                </div>
-
-                            <div class="mb-3">
-                            <label class="form-label">Select the parent of this category (not neccessary) </label>
-                                
-                                <select name="category_parent" id="">
-                                <option value=""></option>
-
-                                @foreach($categories as $categorie)
-
-                                    <option value="{{ $categorie->id }}">{{ $categorie->name }}</option>
-                                    
-                                @endforeach
-                                </select>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary">Add Category</button>
-
-                        </form>
-
-                    </div>
-
-               
-
-                </div>
-
-            </div>
-
-
-        
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
+ 
 
  @stop
