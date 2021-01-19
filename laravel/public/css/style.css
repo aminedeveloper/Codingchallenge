@@ -57,7 +57,7 @@
 .sidebar
 {
     background-color: #e3f2fd;
-    height: 500px;
+    height: auto;
 }
 .filterselect
 {
@@ -78,4 +78,19 @@
     color: blue;
     font-size: 20px;
     font-weight: 100;
+}
+.allcategories
+{
+    text-decoration: none;
+    color: blue;
+    font-size: 20px;
+    font-weight: 100;
+}
+.list-group-item
+{
+    background-color: transparent;
+}
+.deletecategorie
+{
+    float: right;
 }
