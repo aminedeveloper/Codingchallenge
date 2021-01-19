@@ -4,26 +4,43 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Categorie;
+use App\Repositories\CategorieRepository; 
+
 class CategoryController extends Controller
 {
-    // This function below responsable to get all the categories 
+    protected $CategorieRepository;
+
+    public function __construct(CategorieRepository $CategorieRepository)
+    {
+        $this->CategorieRepository = $CategorieRepository;
+    }
+
+    // get all the categories 
+
     public function allCategories()
     {
         $categories = Categorie::all();
-        return View('Home',['categories'=>$categories]);
+
+        return View('createcategories',['categories'=>$categories]);
     }
 
-    // This function below responsable to create a  category
+    // create a  category
 
     public function createCategories(Request $request)
     {
-            $categorie = new Categorie(); 
-            $categorie->name = $request->input('categoryname');
-            $categorie->parentid  = $request->input('category_parent');
-            $categorie->save();
-           return redirect('/');
+        $this->CategorieRepository->storeCategorie($request);
+
+        return redirect('/');
     }
     
+    // delete a category 
+
+    public function deletecategorie($categorieid)
+    {
+        $this->CategorieRepository->deleteCategorie($categorieid);
+        
+        return redirect('/');
+    }
   
 }
   
