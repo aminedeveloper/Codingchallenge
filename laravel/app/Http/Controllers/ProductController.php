@@ -8,72 +8,89 @@ use Illuminate\Http\Request;
 use App\Product;
 use App\Categorie;
 use App\Http\Requests\CreateProductsRequest;
-use App\Repositories\ProductRepository;
+use App\services\CreateProducts;
+use App\services\DeleteProducts;
+use App\services\FilterProducts;
+use App\services\FilterByCategories;
+use App\services\GetProducts;
+use App\services\GetCategories;
 
 class ProductController extends Controller
 {
-    protected $ProductRepository;
+    protected $createProducts;
+    protected $deleteProducts;
+    protected $filterProducts;
+    protected $filterBycategories;
+    protected $getProducts;
+    protected $getCategories;
+    
 
-    public function __construct(ProductRepository $ProductRepository)
-    {
-        $this->ProductRepository = $ProductRepository;
+    public function __construct(
+        CreateProducts $createProducts , 
+        DeleteProducts $deleteProducts , 
+        FilterProducts $filterProducts , 
+        FilterByCategories $filterBycategories , 
+        GetProducts $getProducts , 
+        GetCategories $getCategories
+    ) {
+
+        $this->createProducts = $createProducts;
+        $this->deleteProducts = $deleteProducts;
+        $this->filterProducts = $filterProducts;
+        $this->filterBycategories = $filterBycategories;
+        $this->getProducts = $getProducts;
+        $this->getCategories = $getCategories;
     }
 
-    // get all the product and categories for the creation
-
-    public function allData()
+    
+    
+    public function allData() // get all the product and categories for the creation
     {
-        $categories = Categorie::all();
-        $products = Product::all();
+
+        $categories = $this->getCategories->getCategories();
+        $products = $this->getProducts->getProducts();
 
         return view('createproduct', compact('categories', 'products'));
     }
 
-    // get all the product and categories for the homepage
-
-    public function getAllproducts()
+    
+    public function getAllproducts() // get all the product and categories for the homepage
     {
-        $categories = Categorie::all();
-        $products = Product::all();
+        $categories = $this->getCategories->getCategories();
+        $products = $this->getProducts->getProducts();
 
         return view('home', compact('categories', 'products'));
     }
 
-
-    // create a product
-
-    public function createProduct(CreateProductsRequest $request)
+ 
+    public function createProduct(CreateProductsRequest $request) // create a product
     {
-        $this->ProductRepository->storeProduct($request);
+        $this->createProducts->storeProduct($request);
 
         return redirect('/');
     }
 
-    // delete a product 
-
-    public function deleteProduct($productId)
+    
+    public function deleteProduct($productId) // delete a product
     {
-        $this->ProductRepository->deleteProduct($productId);
+        $this->deleteProducts->deleteProduct($productId);
         
         return redirect('/');
     }
 
-
-    // filtering the products by name or price 
-
-    public function filterProduct(Request $request)
+    
+    public function filterProduct(Request $request) // filtering the products by name or price
     {
-        $products = $this->ProductRepository->filterProduct($request);
-        $categories = Categorie::all();
+            $products = $this->filterProducts->filterProduct($request);
+            $categories = $this->getCategories->getCategories();
 
-        return view('home', compact('categories', 'products'));   
+            return view('home', compact('categories', 'products'));   
     }
 
     // filtering the product by name or price 
-
     public function filterProductcategory(Request $request)
     {
-        $products=$this->ProductRepository->filterBycategorie($request);
+        $products=$this->filterBycategories->filterBycategorie($request);
         $categories = Categorie::all();
 
         return view('home', compact('categories', 'products')); 

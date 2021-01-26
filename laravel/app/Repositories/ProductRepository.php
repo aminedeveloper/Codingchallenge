@@ -3,86 +3,94 @@
 namespace App\Repositories;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Product;
-use App\Categorie;
+use Illuminate\Support\Facades\DB;
 
 
 class ProductRepository extends BaseRepository
 {
+    public function storeProduct (
+                    $productName,
+                    $productDescription, 
+                    $productPrice,
+                    $productImage, 
+                    $productParent
+    ) {
 
-    public function storeProduct($request)
-    {
-        // move product image to the folder mentioned
-        if ($request->hasFile('image')) 
-        {
-            $file = $request->file('productimage');
-            $input['productimage'] = time() .'.'.$file->getClientOriginalExtension();
-            $destinationPath=public_path('/productsimages');
-            $file->move($destinationPath , $input['productimage']);
-        }
-        else
-        {
-            $input['productimage']=$request->input('productimage');
-        }
-        
-        $product = Product::create([
-            'name'       =>$request->input('productname'),
-            'description'=>$request->input('productdescription'),
-            'price'      =>floatval($request->input('productprice')),
-            'image'      =>$input['productimage'],
-            'category'   =>$request->input('category_parent_product')
-        ]);
-
-        return $product;
+        DB::table('products')->insert(
+            ['name' => $productName,
+             'description' => $productDescription,
+             'price' => $productPrice,
+             'image' => $productImage,
+             'category' => $productParent
+            ]
+        );
     }
 
     public function deleteProduct($productId)
     {
-        $product = Product::find($productId);
-        $product->delete();
+        DB::table('products')->where('id', '=', $productId)->delete();
     }
 
-    public function filterProduct($request)
+    public function getProducts()
     {
-        $filterBy=$request->input('filterby');
+        $products = DB::table('products')
+            ->select('id',
+                     'name',
+                     'description',
+                     'price',
+                     'image',
+                     'category'
+                     )
+            ->get();
 
-        switch ($filterBy) 
-        {
+        return($products);
+    }
+   
+    public function productsPriceup()
+    {
+        $products = DB::table('products')
+            ->select('id',
+                     'name',
+                     'description',
+                     'price',
+                     'image',
+                     'category'
+                     )
+            ->orderBy('price', 'asc')         
+            ->get();
 
-            case 'priceup':
-                    $products = Product::select("*")
-                    ->orderBy('price', 'asc')
-                    ->get();
-
-                return ($products);
-            break;
-            
-            case 'pricedown':
-                    $products = Product::select("*")
-                    ->orderBy('price', 'desc')
-                    ->get();
-
-                 return ($products);
-            break;
-
-            case 'name':
-                    $products = Product::select("*")
-                    ->orderBy('name')
-                    ->get();
-
-                 return ($products);
-            break;
-        }
+        return($products);
     }
 
-    public function filterBycategorie($request)
+    public function productsPricedown()
     {
-        
-        $filterBy=$request->input('category_filter');
-        $products = Product::select("*")
-                            ->where('category',$filterBy)
-                            ->get();
+        $products = DB::table('products')
+            ->select('id',
+                     'name',
+                     'description',
+                     'price',
+                     'image',
+                     'category'
+                     )
+            ->orderBy('price', 'desc')         
+            ->get();
 
-        return ($products);
+        return($products);
+    }
+
+    public function productsName()
+    {
+        $products = DB::table('products')
+            ->select('id',
+                     'name',
+                     'description',
+                     'price',
+                     'image',
+                     'category'
+                     )
+            ->orderBy('name')        
+            ->get();
+
+        return($products);
     }
 }

@@ -2,24 +2,16 @@
 
 namespace App\Repositories;
 
-use Illuminate\Database\Eloquent\Model; 
-use App\Categorie;
+use Illuminate\Support\Facades\DB;
 
 class CategorieRepository extends BaseRepository
 {
-    public function storeCategorie($request)
+    public function getCategories()
     {
-        $categorie = Categorie::create([
-            'name'       =>$request->input('categoryname'),
-            'parentid'=>$request->input('category_parent')
-        ]);
+        $categories = DB::table('categories')
+            ->select('id', 'name', 'parentid')
+            ->get();
 
-        return $categorie;
-    }
-
-    public function deleteCategorie($categorieId)
-    {
-        $category = Categorie::find($categorieId);
-        $category->delete();
+        return($categories);
     }
 }

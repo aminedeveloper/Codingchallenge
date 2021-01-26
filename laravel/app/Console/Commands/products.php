@@ -6,7 +6,10 @@ use App\Categorie;
 use App\Product;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use App\Repositories\ProductRepository;
+use App\services\CreateProducts;
+use App\services\DeleteProducts;
+use App\services\FilterProducts;
+use App\services\FilterByCategories;
 use Illuminate\Http\Request;
 
 class products extends Command
@@ -25,17 +28,23 @@ class products extends Command
      */
     protected $description = 'This Command is responsable to manipulating products';
 
-    protected $ProductRepository;
+    protected $createProducts;
+    protected $deleteProducts;
+    protected $filterProducts;
+    protected $filterBycategories;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(ProductRepository $ProductRepository)
+    public function __construct(CreateProducts $createProducts , DeleteProducts $deleteProducts , FilterProducts $filterProducts , FilterByCategories $filterBycategories)
     {
         parent::__construct();
-        $this->ProductRepository = $ProductRepository;
+        $this->createProducts = $createProducts;
+        $this->deleteProducts = $deleteProducts;
+        $this->filterProducts = $filterProducts;
+        $this->filterBycategories = $filterBycategories;
 
     }
 
@@ -45,8 +54,7 @@ class products extends Command
      * @return mixed
      */
     public function handle()
-    {
-        $request = new Request();
+    { 
         $row = ['1', 'Show lists of all products'];
         $row2 = ['2','Add a product'];
         $row3 = ['3','Delete a product'];
@@ -67,19 +75,19 @@ class products extends Command
             
             case '2':
                 // Add a product
-                $request['productname'] = $this->ask('Enter product name');
-                $request['productdescription'] = $this->ask('Enter product description');
-                $request['productprice'] = floatval($this->ask('Enter product price'));
-                $request['productimage'] = $this->ask('Enter product image path');
-
+                $productName = $this->ask('Enter product name');
+                $productDescription = $this->ask('Enter product description');
+                $productPrice = floatval($this->ask('Enter product price'));
+                $productImage = $this->ask('Enter product image');
+                
                 $this->table(
                     ['Id', 'Name'],
                     Categorie::all(['id', 'name'])->toArray()
                 );
+                $productParent = $this->ask('Enter product category id');
+                $request = array("productname"=>$productName, "productdescription"=>$productDescription, "productprice"=>$productPrice, "productimage"=>$productImage, "category_parent_product"=>$productParent);
 
-                $request['category_parent_product'] =$this->ask('Enter product category id');
-
-                $this->ProductRepository->storeProduct($request);
+                $this->createProducts->storeProduct($request);
             break;
 
             case '3' :
@@ -89,8 +97,8 @@ class products extends Command
                         
                 );
                 $productId = intval($this->ask('Enter product id want to delete'));
-                $this->ProductRepository->deleteProduct($productId);
+                $this->deleteProducts->deleteProduct($productId);
             break;
         }
     }
-}
+} 

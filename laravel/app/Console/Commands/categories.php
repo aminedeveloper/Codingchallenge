@@ -4,7 +4,8 @@ namespace App\Console\Commands;
 
 use Illuminate\Support\Facades\Artisan;
 use App\Categorie;
-use App\Repositories\CategorieRepository;
+use App\services\CreateCategorie;
+use App\services\DeleteCategorie;
 use Illuminate\Console\Command;
 use Illuminate\Http\Request;
 
@@ -23,16 +24,18 @@ class categories extends Command
      * @var string
      */
     protected $description = 'This Command Responsable to manipulating categories';
-    protected $CategorieRepository;
+    protected $createCategorie;
+    protected $deleteCategorie;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct(CategorieRepository $CategorieRepository)
+    public function __construct(CreateCategorie $createCategorie , DeleteCategorie $deleteCategorie)
     {
-        $this->CategorieRepository = $CategorieRepository;
+        $this->createCategorie = $createCategorie;
+        $this->deleteCategorie = $deleteCategorie;
         parent::__construct();
     }
 
@@ -43,7 +46,7 @@ class categories extends Command
      */
 
       
-
+ 
     public function handle()
     {
         $row = ['1', 'Show lists of all categories'];
@@ -87,7 +90,7 @@ class categories extends Command
                     $category_parent=NULL;
                 } 
 
-                $this->CategorieRepository->storeCategorie($request);
+                $this->createCategorie->storeCategorie($request);
             break;
 
             case '3':
@@ -104,7 +107,7 @@ class categories extends Command
 
                    $categorieId=NULL;
                 } 
-               $this->CategorieRepository->deleteCategorie($categorieId);
+                $this->deleteCategorie->deleteCategorie($categorieid);
             break;     
         }
     }

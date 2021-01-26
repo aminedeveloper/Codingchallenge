@@ -4,15 +4,18 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Categorie;
-use App\Repositories\CategorieRepository; 
-
+use App\services\CreateCategorie;
+use App\services\DeleteCategorie;
+  
 class CategoryController extends Controller
 {
-    protected $CategorieRepository;
+    protected $createCategorie;
+    protected $deleteCategorie;
 
-    public function __construct(CategorieRepository $CategorieRepository)
+    public function __construct(CreateCategorie $createCategorie , DeleteCategorie $deleteCategorie)
     {
-        $this->CategorieRepository = $CategorieRepository;
+        $this->createCategorie = $createCategorie;
+        $this->deleteCategorie = $deleteCategorie;
     }
 
     // get all the categories 
@@ -28,7 +31,7 @@ class CategoryController extends Controller
 
     public function createCategories(Request $request)
     {
-        $this->CategorieRepository->storeCategorie($request);
+        $this->createCategorie->storeCategorie($request);
 
         return redirect('/');
     }
@@ -37,7 +40,7 @@ class CategoryController extends Controller
 
     public function deletecategorie($categorieid)
     {
-        $this->CategorieRepository->deleteCategorie($categorieid);
+        $this->deleteCategorie->deleteCategorie($categorieid);
         
         return redirect('/');
     }
